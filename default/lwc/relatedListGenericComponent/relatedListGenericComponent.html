@@ -1,0 +1,34 @@
+<template>
+    <!-- Page Header -->
+       <lightning-modal-header class="headerClass">
+            <div class="slds-grid">
+            <div class="slds-col slds-size_3-of-16" >
+                {relatedListObjectNameSingular}
+            </div>
+            <div class="slds-col slds-size_-of-16">
+                <lightning-button class="slds-float_right" label="New" onclick={newRecordCreation}></lightning-button>
+            </div>
+            <!-- <lightning-button class="slds-col slds-size_16-of-16 slds-float_right" label="New" onclick={newRecordCreation}></lightning-button> -->
+            </div>
+            <!-- <lightning-button class="slds-float_right" label="New" onclick={newRecordCreation}></lightning-button> -->
+       </lightning-modal-header>
+           <template if:true={recordDataVar.length}>
+               
+                   <lightning-datatable
+                           key-field="Id"
+                           data={recordDataVar}
+                           columns={columns}
+                           onrowaction={callRowAction}
+                           >
+                      
+                   </lightning-datatable>
+           </template>
+
+       <lightning-modal-body>
+           <!-- modal content specified in LightningModal component -->
+       </lightning-modal-body>
+
+
+
+   
+</template>
