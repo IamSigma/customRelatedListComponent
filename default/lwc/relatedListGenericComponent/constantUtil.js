@@ -1,4 +1,16 @@
 // Contact Fetch Data
+export const editButtonObject =   {
+  type: 'button',
+  typeAttributes: {
+    label: 'Edit',
+    name: 'Edit',
+    title: 'Edit',
+    disabled: false,
+    value: 'edit',
+    iconPosition: 'left'
+  }
+}
+
 export const fetchContactColumn = ['Id', 'Name', 'Phone', 'Action'];
 export const dataTableHeaderContactColumn = [
   { label: 'Id', fieldName: 'Id' }, { label: 'Name', fieldName: 'Name' }, { label: 'Phone', fieldName: 'Phone' },
