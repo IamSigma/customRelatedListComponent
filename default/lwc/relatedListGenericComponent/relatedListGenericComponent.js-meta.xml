@@ -13,8 +13,10 @@
 
     <targetConfigs>  
         <targetConfig targets="lightning__RecordPage">
-            <property name="relatedListObjectNamePlural" type="String" default="Contacts" label="Enter Related List Object Name Plural"/>
             <property name="relatedListObjectNameSingular" type="String" default="Contact" label="Enter Related List Object Name Singular"/> 
+            <property name="relatedListObjectNamePlural" type="String" default="Contacts" label="Enter Related List Object Name Plural"/>
+            <property name="fieldsApiNames" type="String" default="Name" label="Enter Field API names seperated by comma" required="true" /> 
+            <property name="rowsToDisplay" type="String" default="10" label="Enter the number of rows to display"/> 
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
