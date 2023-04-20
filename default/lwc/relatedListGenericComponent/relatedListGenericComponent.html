@@ -1,3 +1,5 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
 <template>
     <!-- Page Header -->
        <lightning-modal-header class="headerClass">
@@ -5,13 +7,14 @@
             <div class="slds-card__header slds-text-heading--small slds-truncate slds-size_3-of-16" >
                 {relatedListObjectNameSingular}
             </div>
-            <div class="slds-col slds-size_-of-16">
+            <div class="slds-col slds-size_1-of-16">
                 <lightning-button class="slds-float_right" label="New" onclick={newRecordCreation}></lightning-button>
             </div>
             <!-- <lightning-button class="slds-col slds-size_16-of-16 slds-float_right" label="New" onclick={newRecordCreation}></lightning-button> -->
             </div>
             <!-- <lightning-button class="slds-float_right" label="New" onclick={newRecordCreation}></lightning-button> -->
        </lightning-modal-header>
+       <!-- sldsValidatorIgnoreNextLine -->
            <template if:true={recordDataVar.length}>
                
                    <lightning-datatable
@@ -19,6 +22,9 @@
                            data={recordDataVar}
                            columns={columns}
                            onrowaction={callRowAction}
+                           sorted-by={sortedBy}
+                            sorted-direction={sortedDirection}
+                            onsort={onSort}
                            >
                       
                    </lightning-datatable>

@@ -3,8 +3,6 @@ import { getRelatedListRecords } from 'lightning/uiRelatedListApi';
 import { NavigationMixin } from 'lightning/navigation';
 import { editButtonObject, fetchOpportunityColumn, dataTableHeaderOpportunityColumn } from './constantUtil';
 
-const col = [{ label: 'Id', fieldName: 'Id' }, { label: 'Name', fieldName: 'Name' }, { label: 'Phone', fieldName: 'Phone' }];
-
 export default class GenericRelatedListComponent extends NavigationMixin(LightningElement) {
     @api recordId;
     @api relatedListObjectNamePlural;
@@ -16,13 +14,17 @@ export default class GenericRelatedListComponent extends NavigationMixin(Lightni
     @track records;
     error;
     @track tempArr = null;
-    @track columns = col;
+    @track columns ;
     @track recordDataVar = [];
     @track relatedListFields = [];
 
     @track fieldsApiNamesArray = [];
     @track fieldsApiNameArraySplitted = [];
     @track headerRelatedListColoumn = [];
+
+
+    @track sortedBy = "FirstName";
+    @track sortedDirection = "asc";
 
     connectedCallback () {
       console.log('fieldsApiName ::' + this.fieldsApiNames);
@@ -38,7 +40,18 @@ export default class GenericRelatedListComponent extends NavigationMixin(Lightni
     }
     constructRelatedListFieldsTemp(){
       for ( let i = 0 ; i < this.fieldsApiNamesArray.length ; i++ ){
-        this.headerRelatedListColoumn.push( { label: this.fieldsApiNamesArray[i], fieldName: this.fieldsApiNamesArray[i] });
+        if(this.fieldsApiNamesArray[i] === "Name"){
+          this.headerRelatedListColoumn.push( { label: this.fieldsApiNamesArray[i], fieldName: "ConName", sortable: "true", type: 'url', typeAttributes: {
+            label: {
+                fieldName: 'Name'
+            },
+          }
+        });
+        }
+        else{
+          this.headerRelatedListColoumn.push( { label: this.fieldsApiNamesArray[i], fieldName: this.fieldsApiNamesArray[i], sortable: "true" });
+        }
+
       }
       this.headerRelatedListColoumn.push(editButtonObject);
     }
@@ -82,6 +95,9 @@ export default class GenericRelatedListComponent extends NavigationMixin(Lightni
             
             let tempVai = this.fieldsApiNameArraySplitted[i];
             tempObj[`${tempVai}`] = rec.fields[`${tempVai}`].value;
+            if( this.fieldsApiNameArraySplitted[i] === "Name" ){
+              tempObj.ConName = '/' + rec.id;
+            }
           }
           this.recordDataVar.push(tempObj);
         }
@@ -115,5 +131,26 @@ export default class GenericRelatedListComponent extends NavigationMixin(Lightni
           }
         });
       }
+    }
+
+
+    onSort(event) {
+      this.sortedBy = event.detail.fieldName;
+      this.sortedDirection = event.detail.sortDirection;
+      this.sortData(this.sortedBy, this.sortedDirection);
+    }
+  
+    sortData(fieldname, direction) {
+      let parseData = JSON.parse(JSON.stringify(this.recordDataVar));
+      let keyValue = (a) => {
+        return a[fieldname];
+      };
+      let isReverse = direction === "asc" ? 1 : -1;
+      parseData.sort((x, y) => {
+        x = keyValue(x) ? keyValue(x) : "";
+        y = keyValue(y) ? keyValue(y) : "";
+        return isReverse * ((x > y) - (y > x));
+      });
+      this.recordDataVar = parseData;
     }
 }
